@@ -7,8 +7,8 @@ const Router = express.Router();
 
 Router.get(
   "/users",
-  authentification,
-  authorization(["admin"]),
+  // authentification,
+  // authorization(["admin"]),
   UserController.getUsers
 );
 Router.get(
@@ -18,6 +18,7 @@ Router.get(
   AuthController.getProfile
 );
 Router.post("/signup", UserController.signup);
+
 Router.post("/login", AuthController.login);
 Router.put(
   "/update/:id",
@@ -25,10 +26,20 @@ Router.put(
   authorization(["user", "admin"]),
   UserController.updateUser
 );
+// Delete user 
 Router.delete(
   "/delete/:id",
-  authentification,
-  authorization(["admin"]),
+  // authentification,
+  // authorization(["admin"]),
   UserController.deleteUser
 );
+// Find user by Id
+Router.get("/find/:id",UserController.getUserById);
+// Count all users
+Router.get("/count", UserController.countUsers);
+
+Router.get('/operateurs', UserController.getAllOperators);
+
+
+
 export { Router as userRouter };
