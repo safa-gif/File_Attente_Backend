@@ -40,6 +40,7 @@ Router.get("/count", UserController.countUsers);
 
 Router.get('/operateurs', UserController.getAllOperators);
 
+Router.get('/clients', UserController.getAllClients)
 
 
 export { Router as userRouter };

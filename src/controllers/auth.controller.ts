@@ -9,7 +9,7 @@ export class AuthController {
       const { email, password } = req.body;
       if (!email || !password) {
         return res
-          .status(500)
+          .status(501)
           .json({ message: " email and password required" });
       }
 
@@ -20,9 +20,9 @@ export class AuthController {
       if (!user || !isPasswordValid) {
         return res.status(404).json({ message: "User not found" });
       }
-      const token = encrypt.generateToken({ id: user.id });
+      // const token = encrypt.generateToken({ id: user.id });
 
-      return res.status(200).json({ message: "Login successful", user, token });
+      return res.status(200).json({ message: "Login successful", user });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });

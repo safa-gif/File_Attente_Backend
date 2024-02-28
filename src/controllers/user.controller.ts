@@ -18,13 +18,22 @@ export class UserController {
     user.role = role;
 
     const userRepository = AppDataSource.getRepository(User);
-    await userRepository.save(user);
-    console.log("This is You're user", user);
+    const userexit = await userRepository.findOne({where : 
+      {fullName : fullName} || {email: email} || 
+      {password: encryptedPassword} || {telephone : telephone}})
+      if(userexit!= null) {
+        return res.status(500).json({
+          message : "User already exists"
+        })
+      }
+      else {
+        await userRepository.save(user);
+        return res.status(200).json({
+          message:" Successfully Signed Up! "});
+      }
+    // await userRepository.save(user);
 
-    // userRepository.create({ Name, email, password });
-    const token = encrypt.generateToken({ id: user.id });
-
-    return res.status(200).json({ message: "User created successfully", user });
+    // return res.status(200).json({ message: "User created successfully"});
   }
 
   // Get All Users
@@ -50,7 +59,7 @@ export class UserController {
     const users = await userRepository.find();
     console.log("Here result after find",users);
     
-    return res.status(200).json({ users});
+    return res.status(200).json({ message: "This are all the users", users});
   }
 
   //Update user
@@ -87,14 +96,7 @@ export class UserController {
       where: { id },
     });
     await userRepository.remove(user);
-    if(user) {
-      res.status(200).json({ message: "ok" });
-      console.log( "User deleted successfully")
-    }
-    else{
-        res.status(500).json({ message: "User couldn't be deleted"})
-        console.log("Error while deleting this user");
-    }
+    res.status(200).json({ message : "User deleted successfully"})
   }
   //Get User By Id
   static async getUserById(req:Request ,res :Response){
@@ -126,10 +128,21 @@ export class UserController {
   // Get All Operateurs
   static async getAllOperators (req: Request, res: Response) {
     const userRepository = AppDataSource.getRepository(User);
-    const op = await userRepository.findOne({ where : {role : "operateur"}})
+    await userRepository.findOne({ where : {role : "operateur"}})
     .then((op)=>{
       console.log("Hello "+op);
-      res.status(201).json({ message: "User found by ID ", data: op});
+      res.status(201).json({ message: "These are all your operators", data: op });
+
+    })
+  }
+
+  // Get All the Clients
+  static async getAllClients (req: Request, res: Response) {
+    const userRepository = AppDataSource.getRepository(User);
+    await userRepository.findOne({ where : {role : "client"}})
+    .then((cl)=>{
+      console.log("Hello "+cl);
+      res.status(201).json({ message: "These are all your clients ", data: cl});
 
     })
   }
