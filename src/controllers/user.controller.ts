@@ -23,7 +23,7 @@ export class UserController {
       {password: encryptedPassword} || {telephone : telephone}})
       if(userexit!= null) {
         return res.status(500).json({
-          message : "User already exists"
+          message : "User already exists" 
         })
       }
       else {

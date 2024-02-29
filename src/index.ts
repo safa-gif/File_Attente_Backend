@@ -6,14 +6,24 @@ import { userRouter } from "./routes/user.routes";
 import { bureauRouter } from "./routes/bureau.routes";
 import "reflect-metadata";
 import { errorHandler } from "./middleware/errorHandler";
-import {cors} from 'cors';
+import * as cors from "cors";
+import * as bodyParser from "body-parser";
+// var cors = require('cors');
 
 dotenv.config();
 
 
 const app = express();
-app.use(express.json());
+const corsOptions = {
+  origin : "*",
+  credentials : true,
+  optionsSuccessStatus : 200
+}  
+app.use(cors(corsOptions));
 const { PORT = 4000 } = process.env;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 // app.use(cors);
 app.use(errorHandler);
@@ -21,19 +31,24 @@ app.use("/auth", userRouter);
 app.use("/api", bureauRouter);
 
 
+
+app.use(express.json());
+
 // Security configuration
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Origin', '*', "http://localhost:4200")
+    
     res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, Accept, Content-Type, X-Requested-with, Authorization, expiresIn"
+      "Access-Control-Allow-Methods","GET, POST, DELETE,  PATCH, PUT"
     );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, DELETE, OPTIONS, PATCH, PUT"
-    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'w-auth-token');
+
+    res.setHeader('Access-Control-Allow-Credentials', true);
     next();
   });
+  
+
 
 app.get("*", (req: Request, res: Response) => {
   res.status(505).json({ message: "Bad Request" });

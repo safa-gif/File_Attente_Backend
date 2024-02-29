@@ -13,7 +13,7 @@ export class encrypt {
     return bcrypt.compareSync(password, hashPassword);
   }
 
-  static generateToken(payload: payload) {
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: "365d" });
-  }
+  // static generateToken(payload: payload) {
+  //   return jwt.sign(payload, JWT_SECRET, { expiresIn: "365d" });
+  // }
 }
