@@ -57,7 +57,7 @@ export class UserController {
     // }
     const userRepository = AppDataSource.getRepository(User);
     const users = await userRepository.find();
-    console.log("Here result after find",users);
+    // console.log("Here result after find",users);
     
     return res.status(200).json({ message: "This are all the users", users});
   }
