@@ -22,9 +22,10 @@ Router.post("/signup", UserController.signup);
 Router.post("/login", AuthController.login);
 Router.put(
   "/update/:id",
-  authentification,
-  authorization(["user", "admin"]),
   UserController.updateUser
+
+  // authentification,
+  // authorization(["user", "admin"]),
 );
 // Delete user 
 Router.delete(

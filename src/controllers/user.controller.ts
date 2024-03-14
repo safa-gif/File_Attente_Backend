@@ -8,18 +8,20 @@ export class UserController {
 
     //SignUp
   static async signup(req: Request, res: Response) {
-    const { fullName, email, telephone, password, role } = req.body;
+    const { id, nom,prenom,email, telephone, password, role } = req.body;
     const encryptedPassword = await encrypt.encryptpass(password);
     const user = new User();
-    user.fullName = fullName;
+    user.id = id;
+    user.nom = nom;
+    user.prenom= prenom;
     user.email = email;
     user.telephone = telephone;
     user.password = encryptedPassword;
     user.role = role;
 
     const userRepository = AppDataSource.getRepository(User);
-    const userexit = await userRepository.findOne({where : 
-      {fullName : fullName} || {email: email} || 
+    const userexit = await userRepository.findOne({where : {id: id} ||
+      {nom : nom} || {email: email} || 
       {password: encryptedPassword} || {telephone : telephone}})
       if(userexit!= null) {
         return res.status(500).json({
@@ -65,21 +67,24 @@ export class UserController {
   //Update user
   static async updateUser(req: Request, res: Response) {
     const { id } = req.params;
-    const { name, email, telephone, password } = req.body;
+    const { nom, prenom, email, telephone, password } = req.body;
     const encryptedPassword = await encrypt.encryptpass(password);
 
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
       where: { id },
     });
-    user.fullName = name;
-    user.email = email;
+    user.nom= nom;
+    user.prenom= prenom;
+    user.email = email; 
     user.telephone = telephone;
     user.password = encryptedPassword;
+  
     await userRepository.save(user);
-    console.log(JSON.stringify(user));
+    // console.log(JSON.stringify(user));
    if(user) {
-    res.status(200).json({ message: "udpdate", user });
+    console.log("Hello user "+user.email);
+    res.status(200).json({ message: "udpdated seccessfuly", user });
    }
    else {
     console.log("Error updating the user")
@@ -104,7 +109,7 @@ export class UserController {
     const userRepository=AppDataSource.getRepository(User);
     const user = await userRepository.findOne({where:{id}})
     .then((user)=>{
-      console.log("Hello "+user.fullName);
+      console.log("Hello "+user.nom);
       res.status(201).json({ message: "User found by ID ", data: user});
 
     })

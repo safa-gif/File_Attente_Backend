@@ -7,6 +7,8 @@ import {Guichet} from "./entity/Guichet.entity"
 import { Bureau } from "./entity/Bureau.entity"
 import { Feedback } from "./entity/Feedback.entity"
 import * as dotenv from "dotenv";
+import { Ticket } from "./entity/Ticket.entity"
+import { File } from "./entity/File.entity"
 
 dotenv.config();
 
@@ -22,7 +24,7 @@ export const AppDataSource = new DataSource({
     database: DB_DATABASE,
     synchronize: true,
     logging: false,
-    entities: [User, Bureau, Product, Guichet, Feedback],
+    entities: [User, Bureau, Product, Guichet, Feedback, Ticket, File],
     migrations: [__dirname + "/migration/*.ts"],
     subscribers: [],
 })

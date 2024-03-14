@@ -7,13 +7,17 @@ dotenv.config();
 const { JWT_SECRET = "" } = process.env;
 export class encrypt {
   static async encryptpass(password: string) {
-    return bcrypt.hashSync(password, 12);
+    const salt = await bcrypt.genSaltSync(12);
+    // return bcrypt.hashSync(password, salt);
+    const hash = bcrypt.hashSync(password, salt);
+     return hash
   }
+
   static comparepassword(hashPassword: string, password: string) {
     return bcrypt.compareSync(password, hashPassword);
   }
 
-  // static generateToken(payload: payload) {
-  //   return jwt.sign(payload, JWT_SECRET, { expiresIn: "365d" });
-  // }
+  static generateToken(payload: payload) {
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: "365d" });
+  }
 }

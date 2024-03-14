@@ -8,6 +8,9 @@ import "reflect-metadata";
 import { errorHandler } from "./middleware/errorHandler";
 import * as cors from "cors";
 import * as bodyParser from "body-parser";
+import { feedbackRouter } from "./routes/feedback.routes";
+import { guichetRouter } from "./routes/guichet.routes";
+import { productRouter } from "./routes/product.routes";
 // var cors = require('cors');
 
 dotenv.config();
@@ -28,7 +31,13 @@ app.use(bodyParser.urlencoded({extended:false}));
 // app.use(cors);
 app.use(errorHandler);
 app.use("/auth", userRouter);
-app.use("/api", bureauRouter);
+app.use("/brx", bureauRouter);
+app.use("/feed", feedbackRouter);
+app.use("/gchts", guichetRouter);
+app.use("/prods", productRouter);
+
+
+
 
 
 
@@ -61,4 +70,4 @@ AppDataSource.initialize().then(async () => {
       });
       console.log("Data Source has been initialized!");
 
-}).catch(error => console.log(error))
+}).catch(error => console.log("Hello from this error "+error))

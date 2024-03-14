@@ -1,20 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, OneToMany, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity,PrimaryColumn, OneToMany, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import {IsEmail, Length} from "class-validator";
 import {Product } from "./Product.entity";
 import {Guichet} from "./Guichet.entity";
 import {Bureau } from "./Bureau.entity";
 import {Feedback} from "./Feedback.entity";
+import { File } from "./File.entity";
+import { Ticket } from "./Ticket.entity";
+// import { Ticket
+//  } from "./ticket.entity";
 export type roleType = "admin" | "client" | "operateur";
 
 
 @Entity({name : "user"})
 export class User {
 
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryColumn()
     id: string
 
     @Column()
-    fullName: string;
+    nom: string;
+
+    @Column()
+    prenom: string;
 
     @Column()
     @IsEmail()
@@ -44,4 +51,12 @@ export class User {
 
     @OneToMany((user_feedback) =>Feedback, (feedback) => feedback.user)
     feedbacks: Feedback [];
+
+    @OneToMany((user_ticket)=> Ticket, (ticket) => ticket.user)
+    tickets:Ticket[];
+
+    @OneToMany((user_file)=> File, (file)=> file.user)
+    files:File[];
+
+
 }

@@ -1,17 +1,24 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable,ManyToOne} from "typeorm";
+import {Column, CreateDateColumn, Entity, ManyToMany, JoinTable,ManyToOne, PrimaryColumn} from "typeorm";
   import { Bureau } from "./Bureau.entity";
   import {User} from "./User.entity";
+import { Guichet } from "./Guichet.entity";
   
   @Entity({ name: "produit" })
   export class Product {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+    @PrimaryColumn()
+    codeProd: number;
+  
+    @Column()
+    libProd: string;
   
     @Column({ nullable: false })
-    title: string;
-  
-    @Column({ nullable: false })
-    description: string;
+    codeEmb: string;
+
+    @Column()
+    libEmb : string;
+
+    @Column()
+    typePrd : string;
   
     @CreateDateColumn()
     createdAt: Date;
@@ -22,5 +29,11 @@ import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToMany, Jo
 
     @ManyToOne(()=> User, (user) => (user.products))
     user: User
+
+    @ManyToOne(()=> Guichet, (guichet) => (guichet.products))
+    guichet: Guichet
   }
   
+  //code emballage, nom, libellé_prod, libellé_em, type
+
+ // typeorm migration:create ./migration/users

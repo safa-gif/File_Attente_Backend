@@ -1,26 +1,27 @@
 import * as express from "express";
-import { authentification } from "../middleware/authentification";
 import { BureauController } from "../controllers/bureau.controller";
-import { authorization } from "../middleware/authorization";
-
 const Router = express.Router();
 
-Router.get("/bureau", authentification, BureauController.getAllBureaux);
-Router.post("/bureau", 
-authentification, 
-authorization(["admin"]), 
-BureauController.createBureau);
+//getting all bureaux
+Router.get("/bureaux",BureauController.getAllBureaux);
 
-Router.put(
-  "/bureau/:id",
-  authentification,
-  authorization(["admin"]),
-  BureauController.updateBureau
-);
-Router.delete(
-  "/bureau/:id",
-  authentification,
-  authorization(["admin"]),
-  BureauController.deleteBureau
-);
+
+
+// creating a new bureau
+Router.post("/create-bureau", BureauController.createBureau);
+
+//Updating bureau
+Router.put("/update-bureau/:id",BureauController.updateBureau);
+
+// Delete bureau
+Router.delete("/delete-bureau/:id",BureauController.deleteBureau);
+
+// Find bureau by Id
+Router.get("/find-bureau/:id",BureauController.getBureauById);
+
+// Count all bureaux
+Router.get("/count", BureauController.totalBureau);
+
+
+
 export { Router as bureauRouter };
