@@ -10,6 +10,7 @@ export class encrypt {
     const salt = await bcrypt.genSaltSync(12);
     // return bcrypt.hashSync(password, salt);
     const hash = bcrypt.hashSync(password, salt);
+    console.log("This is teh"+hash)
      return hash
   }
 

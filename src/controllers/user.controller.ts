@@ -68,7 +68,8 @@ export class UserController {
   static async updateUser(req: Request, res: Response) {
     const { id } = req.params;
     const { nom, prenom, email, telephone, password } = req.body;
-    const encryptedPassword = await encrypt.encryptpass(password);
+    // console.log("these are the fields that xill be updated!!"+ req.body);
+    // const encryptedPassword = await encrypt.encryptpass(password);
 
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
@@ -78,12 +79,12 @@ export class UserController {
     user.prenom= prenom;
     user.email = email; 
     user.telephone = telephone;
-    user.password = encryptedPassword;
+    user.password = await encrypt.encryptpass(password);
+    // user.password = encryptedPassword;
   
     await userRepository.save(user);
-    // console.log(JSON.stringify(user));
-   if(user) {
-    console.log("Hello user "+user.email);
+    // await userRepository.findOneBy({})
+   if(user!== undefined || null) {
     res.status(200).json({ message: "udpdated seccessfuly", user });
    }
    else {
@@ -109,8 +110,8 @@ export class UserController {
     const userRepository=AppDataSource.getRepository(User);
     const user = await userRepository.findOne({where:{id}})
     .then((user)=>{
-      console.log("Hello "+user.nom);
-      res.status(201).json({ message: "User found by ID ", data: user});
+      // console.log("Hello "+user.nom);
+      res.status(201).json({ message: "User found by ID ", user});
 
     })
     
