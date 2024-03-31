@@ -5,8 +5,8 @@ import { User } from "./User.entity";
 
   export class Feedback {
 
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
     
     @Column({ name: "avis"})
     avis : string

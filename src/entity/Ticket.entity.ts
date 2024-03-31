@@ -28,8 +28,8 @@ export class Ticket {
     @ManyToOne(()=> File, (file) => (file.tickets))
     file: File;
 
-    @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
-    guichets: Guichet [];
+    // @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
+    // guichets: Guichet [];
 
     
     

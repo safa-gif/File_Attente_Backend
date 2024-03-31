@@ -1,12 +1,14 @@
 import {Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from "typeorm";
 import { User } from "./User.entity";
 import { Guichet } from "./Guichet.entity";
-  
+import { Length } from "class-validator";
+
   @Entity({ name: "bureau" })
 
   export class Bureau {
     
     @PrimaryGeneratedColumn()
+    @Length(1,3)
     id: number;
 
     @Column({ nullable: false })
@@ -21,7 +23,7 @@ import { Guichet } from "./Guichet.entity";
     @ManyToOne(()=> User, (user) => (user.bureaux))
     user: User
     
-    @OneToMany((product_guichet) => Bureau, (bureau) => bureau.guichets)
+    @OneToMany((bureau_guichet) => Bureau, (bureau) => bureau.guichets)
     guichets: Guichet [];
   }
 

@@ -23,5 +23,7 @@ Router.get("/find-bureau/:id",BureauController.getBureauById);
 Router.get("/count", BureauController.totalBureau);
 
 
+//AFFECTER UN GUICHET A UN BUREAU
+Router.get("/create-guichet/:id",BureauController.createGuichetforBureau)
 
 export { Router as bureauRouter };

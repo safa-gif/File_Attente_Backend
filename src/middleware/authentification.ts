@@ -8,17 +8,17 @@ export const authentification = (
   res: Response,
   next: NextFunction
 ) => {
-  const header = req.headers.authorization;
+  const header : string = req.headers.authorization;
   if (!header) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized, missing header" });
   }
   const token = header.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(402).json({ message: "Unauthorized, invalide token" });
   }
   const decode = jwt.verify(token, process.env.JWT_SECRET);
   if (!decode) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(403).json({ message: "Unauthorized, not able to decode the token" });
   }
   req[" currentUser"] = decode;
   next();

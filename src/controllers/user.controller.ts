@@ -3,6 +3,8 @@ import { AppDataSource } from "../data-source";
 import { User } from "../entity/User.entity";
 import { encrypt } from "../helpers/encrypt";
 import * as cache from "memory-cache";
+import { authorization } from "../middleware/authorization";
+// import { authentification } from "../middleware/authentification";
 
 export class UserController {
 
@@ -30,8 +32,10 @@ export class UserController {
       }
       else {
         await userRepository.save(user);
+        const token = encrypt.generateToken({ id: user.id });
+
         return res.status(200).json({
-          message:" Successfully Signed Up! "});
+          message:" Successfully Signed Up! ", token});
       }
     // await userRepository.save(user);
 
@@ -53,13 +57,13 @@ export class UserController {
 
     //   cache.put("data", users, 6000);
     //   return res.status(200).json({
+    //     message : "this is all the users in the repository",
     //     data: users,
         
     //   });
     // }
     const userRepository = AppDataSource.getRepository(User);
     const users = await userRepository.find();
-    // console.log("Here result after find",users);
     
     return res.status(200).json({ message: "This are all the users", users});
   }
@@ -68,9 +72,6 @@ export class UserController {
   static async updateUser(req: Request, res: Response) {
     const { id } = req.params;
     const { nom, prenom, email, telephone, password } = req.body;
-    // console.log("these are the fields that xill be updated!!"+ req.body);
-    // const encryptedPassword = await encrypt.encryptpass(password);
-
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
       where: { id },
@@ -79,19 +80,21 @@ export class UserController {
     user.prenom= prenom;
     user.email = email; 
     user.telephone = telephone;
-    user.password = await encrypt.encryptpass(password);
-    // user.password = encryptedPassword;
+    if(password) {
+      user.password= await encrypt.encryptpass(password);
+    }
+    // user.password = await encrypt.encryptpass(password);
   
     await userRepository.save(user);
-    // await userRepository.findOneBy({})
    if(user!== undefined || null) {
     res.status(200).json({ message: "udpdated seccessfuly", user });
+    // console.log("THE USER THAT HAS BEEN UPDATED", user);
    }
    else {
     console.log("Error updating the user")
     res.status(500).json({ message: "The has been an error while udpdating this user"});
-
    }
+  
   }
 
   // Delete User
@@ -107,6 +110,7 @@ export class UserController {
   //Get User By Id
   static async getUserById(req:Request ,res :Response){
     const {id} = req.params ;
+    console.log("HELLO",id)
     const userRepository=AppDataSource.getRepository(User);
     const user = await userRepository.findOne({where:{id}})
     .then((user)=>{
@@ -152,4 +156,19 @@ export class UserController {
 
     })
   }
+   // Getting users' role 
+   static async getUserRole (req: Request, res: Response) {
+    const {id} = req.params ;
+    const userRepository = AppDataSource.getRepository(User);
+    const user = await userRepository.findOne({where:{id}})
+    
+    // await userRepository.findOne({ where : {role : "client"}})
+    // .then((cl)=>{
+    //   console.log("Hello "+cl);
+    //   res.status(201).json({ message: "These are all your clients ", data: cl});
+
+    // })
+  }
+  //le client awel haja ya3malha register, we mba3id login, sinon ichouf les produits we réservi tickets
+  
 }

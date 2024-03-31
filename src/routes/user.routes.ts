@@ -13,8 +13,8 @@ Router.get(
 );
 Router.get(
   "/profile",
-  authentification,
-  authorization(["user", "admin", "operateur"]),
+  // authentification,
+  // authorization(["user", "admin", "operateur"]),
   AuthController.getProfile
 );
 Router.post("/signup", UserController.signup);
@@ -22,6 +22,11 @@ Router.post("/signup", UserController.signup);
 Router.post("/login", AuthController.login);
 Router.put(
   "/update/:id",
+  // authentification,
+  // authorization([
+  //   "admin",    
+  //   "client",
+  // ]),
   UserController.updateUser
 
   // authentification,
@@ -35,13 +40,25 @@ Router.delete(
   UserController.deleteUser
 );
 // Find user by Id
-Router.get("/find/:id",UserController.getUserById);
+Router.get("/find/:id",  
+// authentification,
+// authorization(["admin"]),
+UserController.getUserById);
 // Count all users
-Router.get("/count", UserController.countUsers);
+Router.get("/count", 
+// authentification,
+// authorization(["admin"]),
+UserController.countUsers);
 
-Router.get('/operateurs', UserController.getAllOperators);
+Router.get('/operateurs',
+// authentification,
+// authorization(["admin"]),
+ UserController.getAllOperators);
 
-Router.get('/clients', UserController.getAllClients)
+Router.get('/clients',
+// authentification,
+// authorization(["admin"]),
+ UserController.getAllClients)
 
 
 export { Router as userRouter };

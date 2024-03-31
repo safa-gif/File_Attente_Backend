@@ -79,10 +79,10 @@ export class FeedbackController {
     const {id} = req.params ;
     const feedbackRepository=AppDataSource.getRepository(Feedback);
     const feedback = await feedbackRepository.findOne(
-      {where : {id}}
+      {where : {id},}
     )
     .then((feedback)=>{
-      console.log("Hello ",feedback)
+      // console.log("Hello ",feedback)
       res.status(201).json({ message: "Feedback has been found by ID ", data:feedback});
 
     })
