@@ -66,11 +66,12 @@ export class ProductController {
     const {codeProd} = req.params ;
     const productRepository=AppDataSource.getRepository(Product);
     const produit = await productRepository.findOne(
-      {where : {codeProd}}
+      {where : {codeProd: codeProd},
+    }
     )
     .then((produit)=>{
       // console.log("Hello ",bureau)
-      res.status(201).json({ message: "User found by ID ", data: produit});
+      res.status(200).json({ message: "User found by ID ", data: produit});
 
     })
     

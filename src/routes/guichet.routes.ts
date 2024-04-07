@@ -17,7 +17,7 @@ Router.put("/update-guichet/:id",GuichetController.updateGuichet);
 Router.delete("/delete-guichet/:id",GuichetController.deleteGuichet);
 
 // Find guichet by Id
-Router.get("/find-guichet/:id",GuichetController);
+Router.get("/find-guichet/:id",GuichetController.getGuichetById);
 
 // Count all guichets
 Router.get("/count", GuichetController.totalGuichet);

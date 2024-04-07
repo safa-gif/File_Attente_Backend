@@ -90,7 +90,7 @@ export class BureauController {
     const {id} = req.parmas;
 
     const bureauRepository=AppDataSource.getRepository(Bureau);
-    const bureau = await bureauRepository.findOne(
+    const bureau = await bureauRepository.find(
       {where : {id:id}}
     );
     if(!bureau){
@@ -98,6 +98,7 @@ export class BureauController {
           res.status(404).json({ message: "Bureau introuvable, veuillez créer un bureau tout d'abord"});
       // Je dois créer ce bureau avec ce guichet
     }
+    
     // const nouvGuichet = new Guichet();
     // const {idGuichet, bureauGuichet} = req.body;
     // nouvGuichet.id = idGuichet;
@@ -131,6 +132,11 @@ export class BureauController {
     //     data : guichet
     //   })
     // }
+   
+  }
+  static async getAllGuichetsByBureauId (req:Request ,res: Response) {
+    const {id} = req.parmas;
+   
    
   }
 

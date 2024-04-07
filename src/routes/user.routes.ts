@@ -58,7 +58,10 @@ Router.get('/operateurs',
 Router.get('/clients',
 // authentification,
 // authorization(["admin"]),
- UserController.getAllClients)
+ UserController.getAllClients);
+
+ Router.get("/admins",
+ UserController.getAllAdmins)
 
 
 export { Router as userRouter };

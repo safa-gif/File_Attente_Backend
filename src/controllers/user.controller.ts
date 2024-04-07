@@ -65,7 +65,9 @@ export class UserController {
     const userRepository = AppDataSource.getRepository(User);
     const users = await userRepository.find();
     
-    return res.status(200).json({ message: "This are all the users", users});
+    return res.status(200).json({ 
+      // message: "This are all the users", 
+      data : users});
   }
 
   //Update user
@@ -138,9 +140,9 @@ export class UserController {
   // Get All Operateurs
   static async getAllOperators (req: Request, res: Response) {
     const userRepository = AppDataSource.getRepository(User);
-    await userRepository.findOne({ where : {role : "operateur"}})
+    await userRepository.find({ where : {role : "operateur"}})
     .then((op)=>{
-      console.log("Hello "+op);
+      // console.log("Hello "+op);
       res.status(201).json({ message: "These are all your operators", data: op });
 
     })
@@ -149,10 +151,20 @@ export class UserController {
   // Get All the Clients
   static async getAllClients (req: Request, res: Response) {
     const userRepository = AppDataSource.getRepository(User);
-    await userRepository.findOne({ where : {role : "client"}})
+    await userRepository.find({ where : {role : "client"}})
     .then((cl)=>{
-      console.log("Hello "+cl);
+      // console.log("Hello "+cl);
       res.status(201).json({ message: "These are all your clients ", data: cl});
+
+    })
+  }
+  // Get All Admins
+  static async getAllAdmins (req: Request, res: Response) {
+    const userRepository = AppDataSource.getRepository(User);
+    await userRepository.find({ where : {role : "admin"}})
+    .then((ad)=>{
+      // console.log("Hello "+cl);
+      res.status(201).json({ message: "These are all your clients ", data: ad});
 
     })
   }

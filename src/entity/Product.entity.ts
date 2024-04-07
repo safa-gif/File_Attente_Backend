@@ -10,7 +10,6 @@ import { Guichet } from "./Guichet.entity";
   
     @Column()
     libProd: string;
-    //A supprimer
     
     @CreateDateColumn()
     createdAt: Date;
