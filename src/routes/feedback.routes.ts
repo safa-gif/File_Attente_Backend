@@ -22,6 +22,11 @@ Router.get("/find-feedback/:id",FeedbackController);
 // Count all feedbacks
 Router.get("/count", FeedbackController.totalFeedback);
 
+//Find Feedanck By UserEmail
+Router.get("/findUser-feedback", FeedbackController.getFeedbackByEmail)
 
+//Find Feedback By UserId 
+
+Router.get("/findFeedback-userId/:id", FeedbackController.getFeedbackByIdUser)
 
 export { Router as feedbackRouter };

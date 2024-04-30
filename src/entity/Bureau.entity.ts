@@ -11,20 +11,20 @@ import { Length } from "class-validator";
     @Length(1,3)
     id: number;
 
-    @Column({ nullable: false })
+    @Column()
     localisation: string;
+  
+    @ManyToOne(()=> User, (user) => (user.bureaux))
+    user: User
+    
+    @OneToMany((bureau_guichet) => Bureau, (bureau) => bureau.guichets)
+    guichets: Guichet [];
 
     @CreateDateColumn()
     createdDate: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
-    
-    @ManyToOne(()=> User, (user) => (user.bureaux))
-    user: User
-    
-    @OneToMany((bureau_guichet) => Bureau, (bureau) => bureau.guichets)
-    guichets: Guichet [];
   }
 
   

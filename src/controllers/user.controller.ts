@@ -65,11 +65,17 @@ export class UserController {
     const userRepository = AppDataSource.getRepository(User);
     const users = await userRepository.find();
     
-    return res.status(200).json({ 
-      // message: "This are all the users", 
-      data : users});
+    if(users!=null || undefined) {
+      return res.status(200).json({ 
+        // message: "This are all the users", 
+        data : users});
   }
-
+    else {
+      res.status(500).json({
+        message : "Users cannot be displayed!!"
+      })
+    }
+  }
   //Update user
   static async updateUser(req: Request, res: Response) {
     const { id } = req.params;
@@ -90,13 +96,29 @@ export class UserController {
     await userRepository.save(user);
    if(user!== undefined || null) {
     res.status(200).json({ message: "udpdated seccessfuly", user });
-    // console.log("THE USER THAT HAS BEEN UPDATED", user);
    }
    else {
-    console.log("Error updating the user")
     res.status(500).json({ message: "The has been an error while udpdating this user"});
    }
   
+  }
+  static async resetPassword(req: Request, res: Response) {
+    const {id} = req.params;
+    const { email, password } = req.body;
+    const userRepository = AppDataSource.getRepository(User);
+    const user = await userRepository.findOne({
+     where : {id: id} || {email: email}
+    })
+    user.password = await encrypt.encryptpass(password);
+
+    await userRepository.save(user);
+    if(user!== undefined || null) {
+      res.status(200).json({ message: "udpdated seccessfuly", user });
+     }
+     else {
+      res.status(500).json({ message: "The has been an error while udpdating this user"});
+     }
+
   }
 
   // Delete User
@@ -112,27 +134,28 @@ export class UserController {
   //Get User By Id
   static async getUserById(req:Request ,res :Response){
     const {id} = req.params ;
-    console.log("HELLO",id)
     const userRepository=AppDataSource.getRepository(User);
     const user = await userRepository.findOne({where:{id}})
     .then((user)=>{
-      // console.log("Hello "+user.nom);
       res.status(201).json({ message: "User found by ID ", user});
+
+    })
+    .catch((err)=> {
+      res.status(500).json({ message : " Could not find the user with this ID ", error: err})
 
     })
     
   }
+ 
 
   // Count Users 
   static async countUsers(req: Request, res: Response){
     const userRepository = AppDataSource.getRepository(User);
     const nbUsers = await userRepository.count();
-    console.log("This is the number of user in our app "+nbUsers);
     if(nbUsers>0){
       res.status(200).json({ message: "Ok", data: nbUsers })
     }
     else {
-      console.log('There are no  users in our app'+nbUsers);
       res.status(404).json({ message: "Empty", data: nbUsers})
     }
   }
@@ -142,7 +165,6 @@ export class UserController {
     const userRepository = AppDataSource.getRepository(User);
     await userRepository.find({ where : {role : "operateur"}})
     .then((op)=>{
-      // console.log("Hello "+op);
       res.status(201).json({ message: "These are all your operators", data: op });
 
     })
@@ -153,7 +175,6 @@ export class UserController {
     const userRepository = AppDataSource.getRepository(User);
     await userRepository.find({ where : {role : "client"}})
     .then((cl)=>{
-      // console.log("Hello "+cl);
       res.status(201).json({ message: "These are all your clients ", data: cl});
 
     })
@@ -163,7 +184,6 @@ export class UserController {
     const userRepository = AppDataSource.getRepository(User);
     await userRepository.find({ where : {role : "admin"}})
     .then((ad)=>{
-      // console.log("Hello "+cl);
       res.status(201).json({ message: "These are all your clients ", data: ad});
 
     })
@@ -176,11 +196,9 @@ export class UserController {
     
     // await userRepository.findOne({ where : {role : "client"}})
     // .then((cl)=>{
-    //   console.log("Hello "+cl);
     //   res.status(201).json({ message: "These are all your clients ", data: cl});
 
     // })
   }
-  //le client awel haja ya3malha register, we mba3id login, sinon ichouf les produits we réservi tickets
   
 }

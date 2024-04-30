@@ -1,18 +1,17 @@
-import {Column, CreateDateColumn,OneToOne, Entity, ManyToMany, JoinTable,ManyToOne, JoinColumn,PrimaryColumn} from "typeorm";
-  import { Bureau } from "./Bureau.entity";
-  import {User} from "./User.entity";
+import {Column, CreateDateColumn,OneToOne, Entity, ManyToOne, JoinColumn,PrimaryColumn} from "typeorm";
+import {User} from "./User.entity";
 import { Guichet } from "./Guichet.entity";
+import { Length } from "class-validator";
   
   @Entity({ name: "produit" })
   export class Product {
+
     @PrimaryColumn()
+    @Length(1, 3)
     codeProd: number;
   
     @Column()
     libProd: string;
-    
-    @CreateDateColumn()
-    createdAt: Date;
 
     @ManyToOne(()=> User, (user) => (user.products))
     user: User
@@ -20,6 +19,9 @@ import { Guichet } from "./Guichet.entity";
     @OneToOne(()=>Guichet, (guichet)=> guichet.produit)
     @JoinColumn()
     guichet: Guichet;
+
+    @CreateDateColumn()
+    createdAt: Date;
    
   }
   

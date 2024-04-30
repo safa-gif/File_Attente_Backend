@@ -1,4 +1,4 @@
-import { Entity,PrimaryColumn, PrimaryGeneratedColumn,Column, CreateDateColumn, ManyToOne, OneToMany} from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column, CreateDateColumn, ManyToOne, OneToMany} from "typeorm";
 // import { User } from "./User.entity";
 // import { File } from "./File.entity";
 import {Guichet} from "./Guichet.entity";
@@ -18,15 +18,17 @@ export class Ticket {
 
     @Column()
     NbrClientAttente: number;
-  
-    @CreateDateColumn()
-    dateTicket: Date;
+
+    @Column({type: "timestamp", name:'date', nullable: false})
     
     @ManyToOne(()=> User, (user) => (user.tickets))
     user: User;
 
     @ManyToOne(()=> File, (file) => (file.tickets))
     file: File;
+
+    @CreateDateColumn()
+    createTicket: Date;
 
     // @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
     // guichets: Guichet [];

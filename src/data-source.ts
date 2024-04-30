@@ -1,5 +1,7 @@
 import "reflect-metadata"
+import "reflect-metadata";
 import { DataSource } from "typeorm"
+import "reflect-metadata";
 
 import { User } from "./entity/User.entity"
 import {Product} from "./entity/Product.entity"

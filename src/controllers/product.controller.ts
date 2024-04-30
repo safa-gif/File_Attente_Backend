@@ -16,7 +16,7 @@ export class ProductController {
 
   // Create A New Product
   static async createProduct(req: Request, res: Response) {
-    const {libProd} = req.body;
+    const {codeProd, libProd, user, } = req.body;
    const product = new Product();
    product.libProd= libProd;
     const productRepository = AppDataSource.getRepository(Product);
@@ -74,6 +74,14 @@ export class ProductController {
       res.status(200).json({ message: "User found by ID ", data: produit});
 
     })
-    
+    .catch((err)=> {
+      res.status(500).json({ message : " Could not find the product with this ID ", error: err})
+
+    })
   }
+  // GetProductByGuichet
+
+  // GetProductByUserI
+
+  
 }

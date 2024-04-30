@@ -16,10 +16,11 @@ export class BureauController {
 
   // Create A New Bureau
   static async createBureau(req: Request, res: Response) {
-    const {localisation } = req.body  ;
+    const {localisation , userId} = req.body  ;
    const bureau = new Bureau();
    //ajouter le role admin lors de la création du bureau 
    bureau.localisation = localisation;
+   bureau.user = userId;
     const bureauRepository = AppDataSource.getRepository(Bureau);
     const burExist = await bureauRepository.findOne({where : 
       {localisation: localisation}})

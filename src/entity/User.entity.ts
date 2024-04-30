@@ -36,9 +36,6 @@ export class User {
   
     @Column()
     role: string ;
-  
-    @CreateDateColumn()
-    createdAt: Date;
     
     @OneToMany((user_product) => Product, (product) => product.user)
     products: Product [];
@@ -58,5 +55,7 @@ export class User {
     @OneToMany((user_file)=> File, (file)=> file.user)
     files:File[];
 
+    @CreateDateColumn()
+    createdAt: Date;
 
 }
