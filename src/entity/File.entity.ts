@@ -17,15 +17,15 @@ export class File {
     @Column()
     nom: string;
 
-    @Column()
-    nbrClientSuivant: number;
+    // @Column()
+    // nbrClientSuivant: number;
 
     // YYYY-MM-DD
-    @Column({type: "date", name:"annee_date"})
+    @Column({type: "timestamp", name:"temps_demarrege"})
     
 
     // YYYY-MM-DD HH:mm AM/PM
-    @Column({type: 'timestamp', name:"full_date"})
+    @Column({type: 'timestamp', name:"temps_arret"})
 
     
     @ManyToOne(()=> User, (user) => (user.files))

@@ -125,8 +125,8 @@ export class UserController {
   static async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
     const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.findOne({
-      where: { id },
+    const user = await userRepository.find({
+      where: { id : id},
     });
     await userRepository.remove(user);
     res.status(200).json({ message : "User deleted successfully"})
@@ -153,10 +153,10 @@ export class UserController {
     const userRepository = AppDataSource.getRepository(User);
     const nbUsers = await userRepository.count();
     if(nbUsers>0){
-      res.status(200).json({ message: "Ok", data: nbUsers })
+      res.status(200).json({ message: "Ok", nbUsers })
     }
     else {
-      res.status(404).json({ message: "Empty", data: nbUsers})
+      res.status(404).json({ message: "Auncun compte n'a été trouver!!"})
     }
   }
 

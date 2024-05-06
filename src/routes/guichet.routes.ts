@@ -22,6 +22,10 @@ Router.get("/find-guichet/:id",GuichetController.getGuichetById);
 // Count all guichets
 Router.get("/count", GuichetController.totalGuichet);
 
+//Get Guihcets By BureauID
+Router.get('/find-gchtsByBuId', GuichetController.getGuichetsByBurId);
 
+//Get Guichet bY Product ID
+Router.get('/find-gchByPro', GuichetController.getGuichetsByCodeProd)
 
 export { Router as guichetRouter };

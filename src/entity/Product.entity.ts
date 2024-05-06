@@ -15,9 +15,9 @@ import { Length } from "class-validator";
 
     @ManyToOne(()=> User, (user) => (user.products))
     user: User
-    
+    @Column({type:"varchar",nullable:true})
     @OneToOne(()=>Guichet, (guichet)=> guichet.produit)
-    @JoinColumn()
+    // @JoinColumn()
     guichet: Guichet;
 
     @CreateDateColumn()

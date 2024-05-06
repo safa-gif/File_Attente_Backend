@@ -7,9 +7,10 @@ export class GuichetController {
   static async getAllGuichets(req: Request, res: Response) {
 
     const guichetRepository = AppDataSource.getRepository(Guichet);
-    const Guichetx = await guichetRepository.find();
+    const guichetx = await guichetRepository.find();
     
-    return res.status(200).json({ message: "This are all the guichets", Guichetx});
+    return res.status(200).json({ message: "This are all the guichets", 
+    guichetx});
   }
 
   // Create A New Guichet
@@ -17,36 +18,38 @@ export class GuichetController {
     const {nomGuichet ,user, bureau, produit} = req.body  ;
     const guichet = new Guichet();
     // guichet.id = id;
-    guichet.nomGuichet= nomGuichet;
-    guichet.user = user;
+    guichet.nomGuichet = nomGuichet;
     guichet.bureau = bureau;
-    // guichet.produit = produit;
+    guichet.user = user;
+    guichet.produit = produit;
 
     const guichetRepository = AppDataSource.getRepository(Guichet);
-    const guichetExistant = await guichetRepository.find({
-      where:  {nomGuichet : nomGuichet} 
-    })
-    if(guichetExistant!=null){
-      return res.status(500).json({
-        message: "Guichet Existant Déjà!!"
-      })
-    }
+    // const guichetExistant = await guichetRepository.find({
+    //   where:  {nomGuichet : nomGuichet} 
+    // })
+    // if(guichetExistant!=null){
+    //   return res.status(500).json({
+    //     message: "Guichet Existant Déjà ou Problème c'est survenue lors de la création du guichet"
+    //   })
+    // }
+   
     await guichetRepository.save(guichet);
     return res.status(200).json({ message: "Guichet has been created successfully", 
     guichet});
+    
   }
 
   // Update A Guichet
     static async updateGuichet(req: Request, res: Response) {
     const { id } = req.params;
-    const {nomGuichet,  produit} = req.body;
+    const {nomGuichet,   bureau, user, produit} = req.body;
     const guichetRepository = AppDataSource.getRepository(Guichet);
     const guichet = await guichetRepository.findOne({where: { id: id },
     });
     guichet.nomGuichet = nomGuichet;
-    // guichet.file = file;
-    // guichet.bureau = bureau;
-    // guichet.produit = produit;
+    guichet.user = user;
+    guichet.bureau = bureau;
+    guichet.produit = produit;
     await guichetRepository.save(guichet);
     if(guichet !== null || undefined) {
       return res.status(200).json({ message: "Guichet has been  updated successfully", guichet });
@@ -97,6 +100,37 @@ export class GuichetController {
       })
     })
   }
+
+  static async getGuichetsByBurId(req: Request, res:Response){
+    const {bureau} = req.body;
+    const guichetRepository = AppDataSource.getRepository(Guichet);
+    const guichet = await guichetRepository.find({
+      where : {bureau: bureau},
+    })
+    .then((guichet)=>{
+      res.status(200).json({ message: "Guichet  found by BureauID ", data: guichet})
+    })
+    .catch((error)=> {
+      res.status(500).json({
+        message : " Could not find the Guichet with this Bureau ID ", error: error
+      })
+    })
+  }
   
-    
+  static async getGuichetsByCodeProd(req: Request, res:Response){
+    const {produit} = req.body;
+    const guichetRepository = AppDataSource.getRepository(Guichet);
+    const guichet = await guichetRepository.find({
+      where : {produit: produit},
+    })
+    .then((guichet)=>{
+      res.status(200).json({ message: "Guichet  found by Code Product ", data: guichet})
+    })
+    .catch((error)=> {
+      res.status(500).json({
+        message : " Could not find the Guichet with this Code Product ", error: error
+      })
+    })
+  }
+
 }

@@ -14,12 +14,18 @@ export class Ticket {
     id: number;
 
     @Column()
-    etat: boolean;
+    description:string;
+
+    @Column()
+    etat: string;
 
     @Column()
     NbrClientAttente: number;
 
-    @Column({type: "timestamp", name:'date', nullable: false})
+    @Column({type: "timestamp", name:'date_ticket'})
+
+    // @Column({type: "timestamp", name:'fin_ticket'})
+
     
     @ManyToOne(()=> User, (user) => (user.tickets))
     user: User;

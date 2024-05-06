@@ -22,9 +22,10 @@ import { Bureau } from "./Bureau.entity";
 
     // OP
     @ManyToOne(()=> User, (user) => (user.guichets))
+    @Column({type:"varchar", nullable:true})
+
     user: User;
 
-    @Column({name:"prodCodeGuichet",nullable : true})
     //File Assignée
     // @ManyToOne(()=> File, (file) => (file.guichets))
     // file: File;
@@ -34,9 +35,9 @@ import { Bureau } from "./Bureau.entity";
     @ManyToOne(()=>Bureau,(bureau)=>(bureau.guichets))
     bureau:Bureau;
     
-    // Produit De se guichet
     @OneToOne(()=>Product, (produit)=>produit.guichet)
     // @JoinColumn()
+    @Column({type:"varchar",nullable : true})
     produit:Product
     
     // @CreateDateColumn()

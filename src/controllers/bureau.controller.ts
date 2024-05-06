@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 // import * as cache from "memory-cache";
 import { AppDataSource } from "../data-source";
 import { Bureau } from './../entity/Bureau.entity';
-import { Guichet } from "../entity/Guichet.entity";
 // Get All Bureaux
 export class BureauController {
   static async getAllBureaux(req: Request, res: Response) {
@@ -11,7 +10,8 @@ export class BureauController {
     const bureaux = await bureauRepository.find();
     // console.log("Here result after find",users);
     
-    return res.status(200).json({ message: "This are all the user", bureaux});
+    return res.status(200).json({ message: "This are all the user", 
+    bureaux});
   }
 
   // Create A New Bureau
@@ -41,7 +41,7 @@ export class BureauController {
     const { id } = req.params;
     const {localisation} = req.body;
     const bureauRepository = AppDataSource.getRepository(Bureau);
-    const bureau = await bureauRepository.findOne({where: { id },
+    const bureau = await bureauRepository.findOne({where: { id: id },
     });
     bureau.localisation = localisation;
     await bureauRepository.save(bureau);
@@ -54,7 +54,7 @@ export class BureauController {
     const { id } = req.params;
     const bureauRepository = AppDataSource.getRepository(Bureau);
     const bureau = await bureauRepository.findOne({
-      where: { id },
+      where: { id : id},
     });
     await bureauRepository.remove(bureau);
     return res.status(200).json({ message: "Bureau deleted successfully", bureau});
@@ -91,7 +91,7 @@ export class BureauController {
     const {id} = req.parmas;
 
     const bureauRepository=AppDataSource.getRepository(Bureau);
-    const bureau = await bureauRepository.find(
+    const bureau = await bureauRepository.findOne(
       {where : {id:id}}
     );
     if(!bureau){
@@ -99,46 +99,11 @@ export class BureauController {
           res.status(404).json({ message: "Bureau introuvable, veuillez créer un bureau tout d'abord"});
       // Je dois créer ce bureau avec ce guichet
     }
-    
-    // const nouvGuichet = new Guichet();
-    // const {idGuichet, bureauGuichet} = req.body;
-    // nouvGuichet.id = idGuichet;
-    // nouvGuichet.bureau = bureauGuichet;
-    // console.log("This is the ne guichet", nouvGuichet)
-    // const guichetRepository = AppDataSource.getRepository(Guichet);
-    // await guichetRepository.save(nouvGuichet);
-    // res.status(200).json({
-    //   message: "Guichet saved successfully",
-    //   data : nouvGuichet
-    // })
-    
-    // const {idGuichet} = req.params;
-    // const guichet = new Guichet();
-    // guichet.id = idGuichet;
-    // guichet.bureau=id;
-    // const guichetRepository = AppDataSource.getRepository(Guichet);
-    // const existGuichet = await guichetRepository.findOne({
-    //   where : {id: idGuichet}
-    // })
-    // if(existGuichet!=null){
-    //   return res.status(500).json({
-    //     message: "Guichet exists in the database already!!!"
-    //   })
-    // }
-    // else {
-    //   await guichetRepository.save(guichet);
-    //   console.log("This is your guichet ",guichet)
-    //   return res.status(20).json({
-    //     message : "Guichet has been saved successfuly in the database already!!!",
-    //     data : guichet
-    //   })
-    // }
    
   }
-  static async getAllGuichetsByBureauId (req:Request ,res: Response) {
-    const {id} = req.parmas;
-   
-   
+  
+  static async getGuichetsByBurId(req:Request ,res :Response){
+    // const {guichet} =
   }
 
 }
