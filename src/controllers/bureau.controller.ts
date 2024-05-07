@@ -45,7 +45,14 @@ export class BureauController {
     });
     bureau.localisation = localisation;
     await bureauRepository.save(bureau);
-    return res.status(200).json({ message: "Bureau has been  updated successfully", bureau });
+    if(bureau != undefined || null){
+      return res.status(200).json({ message: "Bureau has been  updated successfully", bureau });
+
+    }
+    else{
+      res.status(500).json({ message: "The has been an error while udpdating this bureau"});
+
+    }
   }
 
 

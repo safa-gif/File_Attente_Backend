@@ -17,7 +17,7 @@ Router.put("/update-product/:id",ProductController.updateProduct);
 Router.delete("/delete-product/:id",ProductController.deleteProduct);
 
 // Find product by Id
-Router.get("/find-product/:id",ProductController);
+Router.get("/find-product/:id",ProductController.getProductById);
 
 // Count all products
 Router.get("/count", ProductController.totalProduct);
