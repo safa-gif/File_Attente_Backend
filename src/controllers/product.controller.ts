@@ -44,14 +44,22 @@ export class ProductController {
     const { codeProd } = req.params;
     const {libProd, user, guichet} = req.body;
     const productRepository = AppDataSource.getRepository(Product);
-    const product = await productRepository.findOne({where: { codeProd},
-    });
+    const product = await productRepository.findOne(
+      {where: { codeProd: codeProd}
+    })
     product.libProd= libProd;
     product.user = user;
     product.guichet = guichet;
   
     await productRepository.save(product);
-    return res.status(200).json({ message: "Product has been  updated successfully", product });
+    if(product!=null ||undefined){
+      return res.status(200).json({ message: "Product has been  updated successfully", product });
+
+    }
+    else{
+      res.status(500).json({ message: "The has been an error while udpdating this product"});
+
+    }
   }
 
 

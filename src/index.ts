@@ -11,6 +11,7 @@ import * as bodyParser from "body-parser";
 import { feedbackRouter } from "./routes/feedback.routes";
 import { guichetRouter } from "./routes/guichet.routes";
 import { productRouter } from "./routes/product.routes";
+import { fileRouter } from "./routes/file.routes";
 // var cors = require('cors');
 
 dotenv.config();
@@ -36,6 +37,7 @@ app.use("/feed", feedbackRouter);
 app.use("/gchts", guichetRouter);
 app.use("/prods", productRouter);
 
+app.use("/fil", fileRouter);
 
 
 

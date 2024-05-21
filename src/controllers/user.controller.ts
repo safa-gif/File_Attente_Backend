@@ -103,8 +103,8 @@ export class UserController {
   
   }
   static async resetPassword(req: Request, res: Response) {
-    const {id} = req.params;
-    const { email, password } = req.body;
+    // const {id} = req.params;
+    const { id, email, password } = req.body;
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
      where : {id: id} || {email: email}
@@ -200,5 +200,8 @@ export class UserController {
 
     // })
   }
+
+  // GETgUICHRTBYUSERID
+  
   
 }

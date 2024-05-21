@@ -24,16 +24,15 @@ export class FeedbackController {
 
   // Create A New Feedback
   static async createFeedback(req: Request, res: Response) {
-    const { email, avis, userId } = req.body  ;
+    const { email, avis } = req.body  ;
    const feedback = new Feedback();
    feedback.email = email;
    feedback.avis = avis;
-   feedback.user = userId;
   //  feedback.dateCreation = dateCreation;
 
     const feedbackRepository = AppDataSource.getRepository(Feedback);
     const existantFeed = await feedbackRepository.findOne({
-      where : {avis: avis} 
+      where : {avis: avis}
     })
     if(existantFeed!= null) {
       return res.status(500).json({ message : "Avis already exists!!!"})
@@ -48,10 +47,11 @@ export class FeedbackController {
   // Update A Feedback
     static async updateFeedback(req: Request, res: Response) {
     const { id } = req.params;
-    const { avis} = req.body;
+    const { avis, email} = req.body;
     const feedRepository = AppDataSource.getRepository(Feedback);
     const feedback = await feedRepository.findOne({where: { id },
     });
+    feedback.email = email;
     feedback.avis = avis;
     await feedRepository.save(feedback);
     return res.status(200).json({ message: "Feedback has been  updated successfully", feedback });
@@ -86,11 +86,11 @@ export class FeedbackController {
     const {id} = req.params ;
     const feedbackRepository=AppDataSource.getRepository(Feedback);
     const feedback = await feedbackRepository.findOne(
-      {where : {id},}
+      {where : {id: id}}
     )
     .then((feedback)=>{
-      // console.log("Hello ",feedback)
-      res.status(201).json({ message: "Feedback has been found by ID ", data:feedback});
+      // console.log("The searched Feddback ",feedback)
+      res.status(201).json({ message: "Feedback has been found by ID ", feed:feedback});
 
     })
     .catch((err)=> {

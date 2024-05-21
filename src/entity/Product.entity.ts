@@ -7,7 +7,7 @@ import { Length } from "class-validator";
   export class Product {
 
     @PrimaryColumn()
-    @Length(1, 3)
+    @Length(1, 9)
     codeProd: number;
   
     @Column()

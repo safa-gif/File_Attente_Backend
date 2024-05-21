@@ -116,6 +116,21 @@ export class GuichetController {
       })
     })
   }
+  static async getGuichetsByBureau(req: Request, res:Response){
+    const {bureau} = req.params;
+    const guichetRepository = AppDataSource.getRepository(Guichet);
+    const guichet = await guichetRepository.find({
+      where : {bureau: bureau},
+    })
+    .then((guichet)=>{
+      res.status(200).json({ message: "Guichet  found by BureauID ", data: guichet})
+    })
+    .catch((error)=> {
+      res.status(500).json({
+        message : " Could not find the Guichet with this Bureau ID ", error: error
+      })
+    })
+  }
   
   static async getGuichetsByCodeProd(req: Request, res:Response){
     const {produit} = req.body;
@@ -132,5 +147,41 @@ export class GuichetController {
       })
     })
   }
+  
+  // getGuichetByUserd
+
+  static async getGuichetByUserId(req:Request, res:Response){
+    const {user}= req.params;
+    const guichetRepository = AppDataSource.getRepository(Guichet);
+    const guichet = await guichetRepository.findOne({
+      where : {user: user},
+    })
+    .then((guichet)=>{
+      res.status(200).json({ message: "Guichet  found by USER ID ", guichet})
+    })
+    .catch((error)=> {
+      res.status(500).json({
+        message : " Could not find the Guichet with this USER ID ", error: error
+      })
+    })
+  }
+
+  // static async getGuichetsByBurByProdId(req: Request, res:Response){
+  //   const {bureau} = req.params;
+  //   const guichetRepository = AppDataSource.getRepository(Guichet);
+  //   const guichet = await guichetRepository.find({
+  //     where : {bureau: bureau},
+  //   })
+  //   .then((guichet)=>{
+  //    res.status(200).json({
+  //     message:"List of Guichets By Bureau",
+  //    })
+  //   })
+  //   .catch((error)=> {
+  //     res.status(500).json({
+  //       message : " Could not find the Guichet with this Bureau ID ", error: error
+  //     })
+  //   })
+  // }
 
 }

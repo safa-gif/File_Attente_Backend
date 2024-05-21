@@ -61,7 +61,9 @@ Router.get('/clients',
  UserController.getAllClients);
 
  Router.get("/admins",
- UserController.getAllAdmins)
+ UserController.getAllAdmins);
+
+ Router.put('/reset-password', UserController.resetPassword)
 
 
 export { Router as userRouter };

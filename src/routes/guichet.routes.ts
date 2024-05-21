@@ -28,4 +28,14 @@ Router.get('/find-gchtsByBuId', GuichetController.getGuichetsByBurId);
 //Get Guichet bY Product ID
 Router.get('/find-gchByPro', GuichetController.getGuichetsByCodeProd)
 
+//Get Guichet by User ID
+
+Router.get('/find-gchUser/:user', GuichetController.getGuichetByUserId)
+
+//Get Guihcets By BureauID
+Router.get('/find-gchtsByBureau/:bureau', GuichetController.getGuichetsByBureau);
+
+//get Guihcet By Breau& Product Id
+// Router.get('/find-gchByBurCode/:bureau', GuichetController.getGuichetsByBurByProdId)
+
 export { Router as guichetRouter };
