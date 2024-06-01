@@ -5,8 +5,6 @@ const Router = express.Router();
 //getting all products
 Router.get("/products",ProductController.getAllProducts);
 
-
-
 // creating a new product
 Router.post("/create-product", ProductController.createProduct);
 

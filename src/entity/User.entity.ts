@@ -37,19 +37,19 @@ export class User {
     @Column()
     role: string ;
     
-    @OneToMany((user_product) => Product, (product) => product.user)
+    @OneToMany(() => Product, (product) => product.user)
     products: Product [];
     
-    @OneToMany((user_guichet) =>Guichet, (guichet) => guichet.user)
+    @OneToMany(() =>Guichet, (guichet) => guichet.user)
     guichets: Guichet [];
     
-    @OneToMany((user_bureau) =>Bureau, (bureau) => bureau.user)
+    @OneToMany(() =>Bureau, (bureau) => bureau.user)
     bureaux: Bureau [];
 
-    @OneToMany((user_feedback) =>Feedback, (feedback) => feedback.user)
+    @OneToMany(() =>Feedback, (feedback) => feedback.user)
     feedbacks: Feedback [];
 
-    @OneToMany((user_ticket)=> Ticket, (ticket) => ticket.user)
+    @OneToMany(()=> Ticket, (ticket) => ticket.user)
     tickets:Ticket[];
 
     @OneToMany((user_file)=> File, (file)=> file.user)

@@ -7,11 +7,14 @@ import { Length } from "class-validator";
   export class Product {
 
     @PrimaryColumn()
-    @Length(1, 9)
-    codeProd: number;
+    // @Length(1, 99999)
+    codeProd: string;
   
     @Column()
     libProd: string;
+
+    @Column()
+    quantite:number
 
     @ManyToOne(()=> User, (user) => (user.products))
     user: User

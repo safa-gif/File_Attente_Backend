@@ -86,7 +86,7 @@ export class FeedbackController {
     const {id} = req.params ;
     const feedbackRepository=AppDataSource.getRepository(Feedback);
     const feedback = await feedbackRepository.findOne(
-      {where : {id: id}}
+      {where : { id}}
     )
     .then((feedback)=>{
       // console.log("The searched Feddback ",feedback)
@@ -101,10 +101,10 @@ export class FeedbackController {
 
 //Getfeedback By Id
 static async getFeedbackByIdUser(req:Request ,res :Response){
-  const {userId} = req.params ;
+  const {user} = req.params ;
   const feedbackRepository=AppDataSource.getRepository(Feedback);
   const feedback = await feedbackRepository.find(
-    {where : {user:userId},}
+    {where : {user}}
   )
   .then((feedback)=>{
     // console.log("Hello ",feedback)
@@ -124,10 +124,10 @@ static async getFeedbackByIdUser(req:Request ,res :Response){
     const {email} = req.body ;
     const feedbackRepository=AppDataSource.getRepository(Feedback);
     const feedback = await feedbackRepository.find(
-      {where : {email: email},}
+      {where : { email},}
     )
     .then((feedback)=>{
-      res.status(201).json({ message: "Feedback has been found by Email", data:feedback});
+      res.status(201).json({ message: "Feedback has been by User Email", data:feedback});
 
     })
     .catch((err)=> {

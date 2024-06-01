@@ -183,5 +183,19 @@ export class GuichetController {
   //     })
   //   })
   // }
+  // static async getNumGuichetByBurId(req:Request, res:Response){
+  //       const {bureau} = req.params;
+  //       const guichetRepository = AppDataSource.getRepository(Guichet);
+  //         const guichet = await guichetRepository.find({
+  //           where : {bureau: bureau},
+  //         })
+  //         const nbr = guichet.length()
+  //         if( nbr > 0 ) {
+  //           return res.status(200).json({message : "Nombre des Guichets  dans la base de données " , nbr})
+  //       }
+  //       else {
+  //           return res.json({message : "Table est vide"})
+  //       }  
+  // }
 
 }

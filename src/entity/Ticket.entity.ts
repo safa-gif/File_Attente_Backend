@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn,Column, CreateDateColumn, ManyToOne, OneToMany, UpdateDateColumn, ManyToMany, JoinTable} from "typeorm";
+import { Entity, PrimaryGeneratedColumn,Column, CreateDateColumn, ManyToOne, OneToMany, UpdateDateColumn, ManyToMany, JoinTable, Generated} from "typeorm";
 // import { User } from "./User.entity";
 // import { File } from "./File.entity";
 import {Guichet} from "./Guichet.entity";
@@ -13,45 +13,39 @@ export class Ticket {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable:true})
     description:string;
 
-    @Column({nullable:false})
-    etat: string;
-
-    @Column({nullable:false})
-    priorite:number;
-
-    @CreateDateColumn()
-    createTicket: Date;
-
-    @UpdateDateColumn()
-    updatedAt:Date;
-    @Column({type:'date', name:"date"})
-    date:Date;
-
-
-    @ManyToMany(()=>File, (file)=> file.tickets)
-    @JoinTable()
-    files:File[];
-
+    @Column({type: 'enum', enum: ['en attente', 'en cours', 'traité', 'terminé'], default: 'en attente' })
+    status: 'en attente' | 'en cours' | 'traité' | 'terminé';
+  
     @Column()
+    // @Generated("increment")
     NbrClientAttente: number;
 
-    // @Column({type: "datetime", name:'date_ticket'})
-
+    @CreateDateColumn()
+    dateTicket: Date;
     
+    @Column()
+    codeProd:number;
+
+    @Column()
+    codeClient:string;
+    
+    @Column()
+    idGuichet:string
+   
+
     @ManyToOne(()=> User, (user) => (user.tickets))
     user: User;
 
-    // @ManyToOne(()=> File, (file) => (file.tickets))
-    // @Column({type:"varchar", name:"file"})
-    // file: File;
+    @ManyToOne(()=>File,(file)=>(file.tickets))
+    file:File;
 
-   
-
-    // @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
-    // guichets: Guichet [];
+    @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
+    guichets: Guichet [];
+     @UpdateDateColumn()
+    updatedAt:Date;
 
     
     

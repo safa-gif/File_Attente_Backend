@@ -201,7 +201,20 @@ export class UserController {
     // })
   }
 
-  // GETgUICHRTBYUSERID
+  // GETOnly Clients Using QueryBuilder
   
-  
+  static async onlyClients(req:Request, res:Response){
+    try{
+      const userRepository = AppDataSource.getRepository(User);
+      const users = userRepository.createQueryBuilder("user").
+      where({role:"client"}).getMany();
+      res.status(200).json({message: "All Clients from users", users})
+    }
+    catch(error){
+      res.status(500).json({ message: 'Error fetching client users', error });
+
+
+    }
+    
+  }
 }

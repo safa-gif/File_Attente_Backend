@@ -17,44 +17,47 @@ export class ProductController {
 
   // Create A New Product
   static async createProduct(req: Request, res: Response) {
-    const {codeProd, libProd, user, guichet} = req.body;
+    const {codeProd, libProd, quantite, guichet} = req.body;
    const product = new Product();
    product.codeProd = codeProd;
    product.libProd= libProd;
-   product.user = user;
+   product.quantite = quantite
+  //  product.user = user;
    product.guichet = guichet;
     const productRepository = AppDataSource.getRepository(Product);
 
-    // const prodtExistant = await productRepository.find({
-    //   where:  {codeProd : codeProd} 
-    // })
-    // if(prodtExistant!=null){
-    //   return res.status(500).json({
-    //     message: 
-    //     "Produit Existant Déjà ou Problème c'est survenue lors de la création du guichet"
-    //   })
-    // }
-    await productRepository.save(product);
-    return res.status(200).json({ message: "Product has been created successfully",
-     product});
+    const prodtExistant = await productRepository.findOne({
+      where:  {codeProd } 
+    })
+    if(prodtExistant!== null || undefined){
+      return res.status(500).json({
+        message:  "Produit Existant Déjà ou Problème c'est survenue lors de la création du guichet"
+      })
+    }
+    else{
+      await productRepository.save(product);
+      return res.status(200).json({ message: "Product has been created successfully",
+       product});
+    }
+    
   }
 
   // Update A Product
     static async updateProduct(req: Request, res: Response) {
     const { codeProd } = req.params;
-    const {libProd, user, guichet} = req.body;
+    const {libProd, user, quantite, guichet} = req.body;
     const productRepository = AppDataSource.getRepository(Product);
     const product = await productRepository.findOne(
-      {where: { codeProd: codeProd}
+      {where: {codeProd}
     })
     product.libProd= libProd;
     product.user = user;
+    product.quantite = parseInt(quantite)
     product.guichet = guichet;
   
     await productRepository.save(product);
-    if(product!=null ||undefined){
+    if(product!== null ||undefined){
       return res.status(200).json({ message: "Product has been  updated successfully", product });
-
     }
     else{
       res.status(500).json({ message: "The has been an error while udpdating this product"});
@@ -68,7 +71,7 @@ export class ProductController {
     const { codeProd } = req.params;
     const productRepository = AppDataSource.getRepository(Product);
     const product = await productRepository.findOne({
-      where: { codeProd : codeProd},
+      where: { codeProd},
     });
     await productRepository.remove(product);
     return res.status(200).json({ message: "Product deleted successfully", product});
@@ -88,21 +91,26 @@ export class ProductController {
 
   //Get Product By Id
   static async getProductById(req:Request ,res :Response){
-    const {codeProd} = req.params ;
+    const {codeProd} = req.params;
     const productRepository=AppDataSource.getRepository(Product);
     const produit = await productRepository.findOne(
-      {where : {codeProd: codeProd},
+      {where : {codeProd:codeProd}
     }
     )
-    .then((produit)=>{
-      // console.log("Hello ",bureau)
-      res.status(200).json({ message: "User found by ID ", data: produit});
+    if(produit!==null){
+     return res.status(200).json({message:"Produit found by ID ",data:produit})
+    }
+    else{
+       return  res.status(500).json({ message : " Could not find the product with this ID "})
 
-    })
-    .catch((err)=> {
-      res.status(500).json({ message : " Could not find the product with this ID ", error: err})
+    }
+    // .then((produit)=>{
+    //   res.status(200).json({ message: "User found by ID ", data: produit});
 
-    })
+    // })
+    // .catch((err)=> {
+    //   res.status(500).json({ message : " Could not find the product with this ID ", error: err})
+    // })
   }
   // GetProductByGuichet
 

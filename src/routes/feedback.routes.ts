@@ -12,6 +12,8 @@ Router.post("/create-feedback", FeedbackController.createFeedback);
 
 //Updating a feedback
 Router.put("/update-feedback/:id",FeedbackController.updateFeedback);
+// Router.put("/update/:id");
+
 
 // Delete  a feedback
 Router.delete("/delete-feedback/:id",FeedbackController.deleteFeedback);

@@ -8,25 +8,22 @@ import { Length } from "class-validator";
 @Entity({name : "file"})
 export class File {
 
-    // @PrimaryColumn()
-    // id: string
+    
     @PrimaryGeneratedColumn()
     @Length(1, 3)
     id:string;
 
     @Column()
     nom: string;
+    
 
-    // @Column()
-    // nbrClientSuivant: number;
+    @Column({default:1})
+    nbrClientSuivant: number;
 
     // YYYY-MM-DD
-    @Column({type: "date", name:"temps_demarrage", nullable:false})
-    temps_demarrage:Date
+    @Column({type: "date"})
+    createdDate:Date
 
-    // YYYY-MM-DD HH:mm AM/PM
-    @Column({type: 'date', name:"temps_arret", nullable:false})
-    temps_arret:Date;
 
     
     @Column({default:0, type: "bigint" })
@@ -34,30 +31,19 @@ export class File {
 
     @Column({default:0, type:"bigint"})
     ticketsRestantes:number;
-
     
-    @UpdateDateColumn({nullable:false})
-    updatedDate: Date
+   
+    @Column()
+    status: "started" | "stopped";
 
-    @ManyToMany(()=>Ticket, (ticket)=> ticket.files)
-    @JoinTable()
+    @OneToMany(()=> User, (user) => (user.files))
+    user: User[]
+
+    @OneToMany(()=> Ticket, (ticket) => ticket.file)
     tickets:Ticket[];
-
     
-    @ManyToOne(()=> User, (user) => (user.files))
-    @Column({type:"varchar", name:"user"})
-    user: User
-
-    @Column({type:"bigint", name:"guichetId"})
-    guichetId: number;
-
-
-    // @OneToMany((file_ticket)=> Ticket, (ticket) => ticket.file)
-    // @Column({type:"varchar",name:"ticket"})
-    // tickets:Ticket[];
-    
-    // @OneToMany((file_guichet) =>Guichet, (guichet) => guichet.file)
-    // guichets: Guichet [];
+    @OneToMany(() =>Guichet, (guichet) => guichet.file)
+    guichets: Guichet[];
      
     //histotique
     

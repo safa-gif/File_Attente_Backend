@@ -12,6 +12,8 @@ import { feedbackRouter } from "./routes/feedback.routes";
 import { guichetRouter } from "./routes/guichet.routes";
 import { productRouter } from "./routes/product.routes";
 import { fileRouter } from "./routes/file.routes";
+import { ticketRouter } from "./routes/ticket.routes";
+
 // var cors = require('cors');
 
 dotenv.config();
@@ -37,7 +39,8 @@ app.use("/feed", feedbackRouter);
 app.use("/gchts", guichetRouter);
 app.use("/prods", productRouter);
 
-app.use("/fil", fileRouter);
+app.use("/file", fileRouter);
+app.use("/tickets", ticketRouter);
 
 
 
@@ -73,3 +76,9 @@ AppDataSource.initialize().then(async () => {
       console.log("Data Source has been initialized!");
 
 }).catch(error => console.log("Hello from this error "+error))
+
+
+
+
+
+

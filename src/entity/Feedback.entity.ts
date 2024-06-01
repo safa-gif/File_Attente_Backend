@@ -17,6 +17,8 @@ import { User } from "./User.entity";
     @ManyToOne(()=> User, (user) => (user.feedbacks))
     user: User
 
+    @Column({nullable:true})
+    sentiment:string
     // @Column({type: 'date', name:"dateCreation"})
     // dateCreation:Date ;
 

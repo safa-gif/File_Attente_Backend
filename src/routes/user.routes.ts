@@ -3,6 +3,7 @@ import { authentification } from "../middleware/authentification";
 import { UserController } from "../controllers/user.controller";
 import { authorization } from "../middleware/authorization";
 import { AuthController } from "../controllers/auth.controller";
+// import { User } from "../entity/User.entity";
 const Router = express.Router();
 
 Router.get(
@@ -63,7 +64,9 @@ Router.get('/clients',
  Router.get("/admins",
  UserController.getAllAdmins);
 
- Router.put('/reset-password', UserController.resetPassword)
+ Router.put('/reset-password', UserController.resetPassword);
+
+ Router.get("/getClients", UserController.onlyClients)
 
 
 export { Router as userRouter };
