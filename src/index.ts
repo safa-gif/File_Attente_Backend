@@ -71,7 +71,7 @@ app.get("*", (req: Request, res: Response) => {
 AppDataSource.initialize().then(async () => {
 
     app.listen(PORT, () => {
-        console.log("Server is running on http://localhost:" + PORT);
+        console.log("Server is running successfully on http://localhost:" + PORT);
       });
       console.log("Data Source has been initialized!");
 

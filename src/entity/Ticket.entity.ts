@@ -16,8 +16,8 @@ export class Ticket {
     @Column({nullable:true})
     description:string;
 
-    @Column({type: 'enum', enum: ['en attente', 'en cours', 'traité', 'terminé'], default: 'en attente' })
-    status: 'en attente' | 'en cours' | 'traité' | 'terminé';
+    @Column({type: 'enum', enum: ['en attente', 'en cours', 'traiter'], default: 'en attente' })
+    status: 'en attente' | 'en cours' | 'traiter' ;
   
     @Column()
     // @Generated("increment")
@@ -34,7 +34,6 @@ export class Ticket {
     
     @Column()
     idGuichet:string
-   
 
     @ManyToOne(()=> User, (user) => (user.tickets))
     user: User;
@@ -44,8 +43,10 @@ export class Ticket {
 
     @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
     guichets: Guichet [];
-     @UpdateDateColumn()
+     
+    @UpdateDateColumn()
     updatedAt:Date;
+    // @Column({nullable:true})
 
     
     

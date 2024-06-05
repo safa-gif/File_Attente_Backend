@@ -5,9 +5,9 @@ const Router = express.Router();
 
 
 Router.post("/creer", fileController.createFile);
-Router.get("get-files", fileController)
-Router.put("upfate-file", fileController)
-Router.delete("delete-file", fileController)
+Router.get("/get-files", fileController.getFiles)
+Router.put("/update-file/:id", fileController)
+Router.delete("/delete-file/:id", fileController.deleteFile)
 
 
 

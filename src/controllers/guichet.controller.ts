@@ -62,7 +62,7 @@ export class GuichetController {
 
   // Delete A Guichet
   static async deleteGuichet(req: Request, res: Response) {
-    const { id } = req.params;
+    const { id } = req.params.id;
     const guichetRepository = AppDataSource.getRepository(Guichet);
     const guichet = await guichetRepository.findOne({
       where: { id : id },
@@ -86,10 +86,10 @@ export class GuichetController {
   // Afficher un guichet by Id
 
   static async getGuichetById(req: Request, res: Response) {
-    const {id} = req.params ;
+    const id = req.params.id ;
     const guichetRepository = AppDataSource.getRepository(Guichet);
-    const guichet = await guichetRepository.findOne({
-      where : {id: id},
+    const guichet = await guichetRepository.find({
+      where : { id},
     })
     .then((guichet)=>{
       res.status(200).json({ message: "Guichet  found by ID ", data: guichet})

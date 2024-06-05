@@ -68,9 +68,9 @@ export class ProductController {
 
   // Delete A Product
   static async deleteProduct(req: Request, res: Response) {
-    const { codeProd } = req.params;
+    const  codeProd  = req.params.id;
     const productRepository = AppDataSource.getRepository(Product);
-    const product = await productRepository.findOne({
+    const product = await productRepository.find({
       where: { codeProd},
     });
     await productRepository.remove(product);
@@ -91,10 +91,10 @@ export class ProductController {
 
   //Get Product By Id
   static async getProductById(req:Request ,res :Response){
-    const {codeProd} = req.params;
+    const codeProd = req.params.id;
     const productRepository=AppDataSource.getRepository(Product);
-    const produit = await productRepository.findOne(
-      {where : {codeProd:codeProd}
+    const produit = await productRepository.find(
+      {where : {codeProd}
     }
     )
     if(produit!==null){
@@ -104,17 +104,8 @@ export class ProductController {
        return  res.status(500).json({ message : " Could not find the product with this ID "})
 
     }
-    // .then((produit)=>{
-    //   res.status(200).json({ message: "User found by ID ", data: produit});
-
-    // })
-    // .catch((err)=> {
-    //   res.status(500).json({ message : " Could not find the product with this ID ", error: err})
-    // })
+   
   }
-  // GetProductByGuichet
-
-  // GetProductByUserI
 
   
 }

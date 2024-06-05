@@ -14,24 +14,27 @@ public static async creerTicket(req:Request, res:Response){
     ticket.codeProd = codeProd;
     ticket.idGuichet = idGuichet;
     ticket.status = status;
-    ticket.NbrClientAttente =0;
-    ticket.file = file;
+    ticket.NbrClientAttente= 0;
+    ticket.file = null;
+    ticket.description = "Ticket Réservé";
 
-   await ticketRepository.save(ticket);
+   if(ticket!=null ||undefined){
+    await ticketRepository.save(ticket);
    return res.status(200).json({
     message:"Ticket crée avec succés!!",
     ticket
    })
-
+   }
+   else {
+    return res.status(400).json({message:"Impossible de réserver votre ticket"})
+   }
 
 }
 
 public static async getAllTickets(req:Request, res:Response){
     const ticketRepository = AppDataSource.getRepository(Ticket);
     const today= new Date();
-    const tickets = await ticketRepository.find(
-        {where:{status:'en attente',}
-    })
+    const tickets = await ticketRepository.find()
     if(tickets!== null || undefined){
        return res.status(200).json({message:"Les tickets d'aujourd'hui",tickets})
     }
@@ -53,13 +56,21 @@ public static async deleteTicket(req:Request, res:Response){
     }
 
 }
+public static async affecteTicketFile(req:Request, res:Response){
+const ticketRepository = AppDataSource.getRepository(Ticket);
+const fileRepository = AppDataSource.getRepository(File);
+const ticketId = parseInt(req.params.id);
+const {guichetId, file} = req.body;
+const ticket = await ticketRepository.createQueryBuilder()
+}
+
 
 public static async getTicketById(req: Request, res:Response){
     const ticketRepository = AppDataSource.getRepository(Ticket);
-    const ticketId = parseInt(req.params.id);
-    const ticket = await ticketRepository.findOneBy({id:ticketId});
+    const id = parseInt(req.params.id);
+    const ticket = await ticketRepository.find({where: {id:id}});
     if(ticket !== null || undefined){
-        return res.status(200).json({message:"Ticket trouvé!!",ticket})
+        return res.status(200).json({message:"Ticket trouvé!!",data: ticket})
     }
     else{
         return res.status(500).json({message:"Ticket non trouvé!!"})
@@ -71,6 +82,8 @@ public static async updateTicket(req:Request, res:Response){
     const ticketRepository = AppDataSource.getRepository(Ticket);
     const ticketId = parseInt(req.params.id);
     const ticket = await ticketRepository.findOneBy({id:ticketId});
+    const fileRepository = AppDataSource.getRepository(File);
+    // const file = await fileRepository.find
     if(ticket !== null || undefined){
         const {description,status} = req.body;
         ticket.description = description;
@@ -96,6 +109,36 @@ public static async countTicket(req:Request, res:Response){
         return res.status(500).json({message:"Pas de tickets trouvée!"})
     }
     // const today=new Date()
+}
+
+
+public static async searchTicketByUserId(req:Request, res:Response){
+    const {codeClient} = req.body;
+
+    const ticketRepository = AppDataSource.getRepository(Ticket);
+    const ticket = ticketRepository.find(
+        {where:{codeClient}
+    })
+    .then((ticket)=>{
+        return res.status(200).json({message:"Ticket trouvée par Id Client!!",data: ticket})
+    })
+    .catch((error)=>{
+        return res.status(500).json({message:"Ticket non trouvée par cet Id Cient!!",erreur:error})
+    })
+   
+}
+public static async searchtTicketByGuichetId(req:Request, res:Response){
+    const {idGuichet} = req.body;
+    const ticketRepository = AppDataSource.getRepository(Ticket);
+    const ticket = ticketRepository.find({
+        where:{idGuichet}
+    })
+    .then((ticket)=>{
+        return res.status(200).json({message:"Ticket trouvée par Id Guichet",data:ticket})
+    })
+    .catch((error)=>{
+        return res.status(500).json({message:"Ticket non trouvée par cet Id Guichet", erreur:error})
+    })
 }
 
 }
