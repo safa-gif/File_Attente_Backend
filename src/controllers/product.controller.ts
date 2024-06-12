@@ -48,7 +48,7 @@ export class ProductController {
     const {libProd, user, quantite, guichet} = req.body;
     const productRepository = AppDataSource.getRepository(Product);
     const product = await productRepository.findOne(
-      {where: {codeProd}
+      {where: {codeProd: codeProd}
     })
     product.libProd= libProd;
     product.user = user;
@@ -92,18 +92,29 @@ export class ProductController {
   //Get Product By Id
   static async getProductById(req:Request ,res :Response){
     const codeProd = req.params.id;
+    // const codeId = parseInt(codeProd);
     const productRepository=AppDataSource.getRepository(Product);
-    const produit = await productRepository.find(
+    const produit = await productRepository.findOne(
       {where : {codeProd}
     }
     )
-    if(produit!==null){
-     return res.status(200).json({message:"Produit found by ID ",data:produit})
-    }
-    else{
-       return  res.status(500).json({ message : " Could not find the product with this ID "})
+    .then((produit)=>{
+      res.status(200).json({
+        message :"Produit found by ID", data: produit
+      })
+    })
+    .catch((error)=>{
+         res.status(500).json({
+          message : " Could not find the Guichet with this ID ", error: error
+         })
+    })
+    // if(produit!==null){
+    //  return res.status(200).json({message:"Produit found by ID ",data:produit})
+    // }
+    // else{
+    //    return  res.status(500).json({ message : " Could not find the product with this ID "})
 
-    }
+    // }
    
   }
 

@@ -1,4 +1,4 @@
-import { Entity,PrimaryColumn, Column, CreateDateColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn, JoinTable, ManyToMany } from "typeorm";
+import { Entity, Column, CreateDateColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import {User} from './User.entity';
 //import { Ticket } from "./ticket.entity";
@@ -20,8 +20,8 @@ export class File {
     // nbrClientSuivant: number;
 
     // YYYY-MM-DD
-    @CreateDateColumn({ type: "timestamp", default: () => "now()" })
-    fileDate:Date
+    @CreateDateColumn()
+    fileDate:Date;
     // @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     //fileDate:Date
     // Use Time type for time 
@@ -45,15 +45,21 @@ export class File {
     @Column({type: 'enum', enum: ['demarrer', 'arreter'], default: 'arreter' })
     status: "demarrer" | "arreter";
 
-    @OneToMany(()=> User, (user) => (user.files))
-    user: User[]
+    // @OneToMany(()=> User, user => user.files)
+    // user: User[]
 
-    @OneToMany(()=> Ticket, (ticket) => ticket.file)
+    @OneToMany(()=> Ticket, ticket => ticket.file
+    , {cascade: true, eager:true}
+)
     tickets:Ticket[];
     
-    @OneToMany(() =>Guichet, (guichet) => guichet.file)
-    guichets: Guichet[];
-     
+    // @OneToMany(() =>Guichet, (guichet) => guichet.file)
+    // guichets: Guichet[];
+     @OneToMany(()=>User, user=>user.file)
+     users:User[];
+
+     @OneToMany(()=>Guichet, guichet=>guichet.file)
+     guichets:Guichet[];
     //histotique
     
 }

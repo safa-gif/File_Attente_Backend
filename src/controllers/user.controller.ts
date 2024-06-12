@@ -4,7 +4,8 @@ import { User } from "../entity/User.entity";
 import { encrypt } from "../helpers/encrypt";
 import * as cache from "memory-cache";
 import { authorization } from "../middleware/authorization";
-// import { authentification } from "../middleware/authentification";
+import { authentification } from "../middleware/authentification";
+import { Userresponce } from "../dto/user.dto";
 
 export class UserController {
 
@@ -44,42 +45,42 @@ export class UserController {
 
   // Get All Users
   static async getUsers(req: Request, res: Response) {
-    // const data = cache.get("data");
-    // if (data) {
-    //   console.log("serving from cache");
-    //   return res.status(200).json({
-    //     data,
-    //   });
-    // } else {
-    //   console.log("serving from db");
-    //   const userRepository = AppDataSource.getRepository(User);
-    //   const users = await userRepository.find();
+    const data = cache.get("data");
+    if (data) {
+      // console.log("serving from cache");
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      console.log("serving from db");
+      const userRepository = AppDataSource.getRepository(User);
+      const users = await userRepository.find();
 
-    //   cache.put("data", users, 6000);
-    //   return res.status(200).json({
-    //     message : "this is all the users in the repository",
-    //     data: users,
+      cache.put("data", users, 6000);
+      return res.status(200).json({
+        message : "this is all the users in the repository",
+        data: users,
         
-    //   });
-    // }
-    const userRepository = AppDataSource.getRepository(User);
-    const users = await userRepository.find();
-    
-    if(users!=null || undefined) {
-      return res.status(200).json({ 
-        // message: "This are all the users", 
-        data : users});
-  }
-    else {
-      res.status(500).json({
-        message : "Users cannot be displayed!!"
-      })
+      });
     }
+  //   const userRepository = AppDataSource.getRepository(User);
+  //   const users = await userRepository.find();
+    
+  //   if(users!=null || undefined) {
+  //     return res.status(200).json({ 
+  //       // message: "This are all the users", 
+  //       data : users});
+  // }
+  //   else {
+  //     res.status(500).json({
+  //       message : "Users cannot be displayed!!"
+  //     })
+  //   }
   }
   //Update user
   static async updateUser(req: Request, res: Response) {
     const { id } = req.params;
-    const { nom, prenom, email, telephone, password } = req.body;
+    const { nom, prenom, email, telephone} = req.body;
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
       where: { id },
@@ -88,9 +89,9 @@ export class UserController {
     user.prenom= prenom;
     user.email = email; 
     user.telephone = telephone;
-    if(password) {
-      user.password= await encrypt.encryptpass(password);
-    }
+    // if(password) {
+    //   user.password= await encrypt.encryptpass(password);
+    // }
     // user.password = await encrypt.encryptpass(password);
   
     await userRepository.save(user);
@@ -103,8 +104,8 @@ export class UserController {
   
   }
   static async resetPassword(req: Request, res: Response) {
-    // const {id} = req.params;
-    const { id, email, password } = req.body;
+    const {id} = req.params;
+    const { email, password } = req.body;
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({
      where : {id: id} || {email: email}
@@ -125,7 +126,7 @@ export class UserController {
   static async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
     const userRepository = AppDataSource.getRepository(User);
-    const user = await userRepository.find({
+    const user = await userRepository.findOne({
       where: { id : id},
     });
     await userRepository.remove(user);

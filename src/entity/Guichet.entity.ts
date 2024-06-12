@@ -26,9 +26,9 @@ import { Ticket } from "./Ticket.entity";
     user: User;
 
     //File Assignée
-    @ManyToOne(()=> File, (file) => (file.guichets))
-    @Column({type:"varchar",nullable:true})
-    file: File;
+    // @ManyToOne(()=> File, (file) => (file.guichets))
+    // @Column({type:"varchar",nullable:true})
+    // file: File;
 
     // Bureau  du guichet
     @ManyToOne(()=>Bureau,(bureau)=>(bureau.guichets))
@@ -42,6 +42,9 @@ import { Ticket } from "./Ticket.entity";
     @ManyToOne(()=>Ticket, (ticket)=>(ticket.guichets))
     @Column({type:"varchar",nullable : true})
     ticket:Ticket;
+
+    @ManyToOne(()=>File,(file)=>(file.guichets))
+    file:File;
     // @CreateDateColumn()
     // createdAt: Date;
 

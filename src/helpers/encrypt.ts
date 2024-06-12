@@ -10,7 +10,7 @@ export class encrypt {
     const salt = await bcrypt.genSaltSync(12);
     // return bcrypt.hashSync(password, salt);
     const hash = bcrypt.hashSync(password, salt);
-    console.log("This is teh"+hash)
+    // console.log("This is teh"+hash)
      return hash
   }
 
@@ -19,6 +19,6 @@ export class encrypt {
   }
 
   static generateToken(payload: payload) {
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: "365d" });
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: "35d" });
   }
 }

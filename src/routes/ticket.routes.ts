@@ -15,7 +15,9 @@ Router.get("/search-ticket", TicketController.searchTicketByUserId);
 Router.get("/search-ticket-guichet", TicketController.searchtTicketByGuichetId)
 // Count all bureaux
 Router.get("/count", TicketController.countTicket);
+Router.get('/en-attente-count',TicketController.countTicketEnAttente)
 
+Router.get('/en-cours-count',TicketController.countTicketEnCours)
 
 
 export { Router as ticketRouter };

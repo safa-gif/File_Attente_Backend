@@ -86,9 +86,9 @@ export class GuichetController {
   // Afficher un guichet by Id
 
   static async getGuichetById(req: Request, res: Response) {
-    const id = req.params.id ;
+    const {id} = req.params ;
     const guichetRepository = AppDataSource.getRepository(Guichet);
-    const guichet = await guichetRepository.find({
+    const guichet = await guichetRepository.findOne({
       where : { id},
     })
     .then((guichet)=>{

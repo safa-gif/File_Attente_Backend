@@ -8,7 +8,7 @@ export const authentification = (
   res: Response,
   next: NextFunction
 ) => {
-  const header : string = req.headers.authorization;
+  const header  = req.headers.authorization;
   if (!header) {
     return res.status(401).json({ message: "Unauthorized, missing header" });
   }

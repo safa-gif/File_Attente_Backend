@@ -1,4 +1,4 @@
-import { Entity,PrimaryColumn, OneToMany, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity,PrimaryColumn, OneToMany, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
 import {IsEmail, Length} from "class-validator";
 import {Product } from "./Product.entity";
 import {Guichet} from "./Guichet.entity";
@@ -52,8 +52,10 @@ export class User {
     @OneToMany(()=> Ticket, (ticket) => ticket.user)
     tickets:Ticket[];
 
-    @OneToMany((user_file)=> File, (file)=> file.user)
-    files:File[];
+    // @OneToMany(()=> File, (file)=> file.user)
+    // files:File[];
+    @ManyToOne(()=>File, file=>file.users)
+    file:File;
 
     @CreateDateColumn()
     createdAt: Date;

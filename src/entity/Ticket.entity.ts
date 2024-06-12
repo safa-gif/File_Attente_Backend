@@ -20,7 +20,6 @@ export class Ticket {
     status: 'en attente' | 'en cours' | 'traiter' ;
   
     @Column()
-    // @Generated("increment")
     NbrClientAttente: number;
 
     @CreateDateColumn()
@@ -35,13 +34,15 @@ export class Ticket {
     @Column()
     idGuichet:string
 
-    @ManyToOne(()=> User, (user) => (user.tickets))
+    @ManyToOne(()=> User, user => user.tickets)
     user: User;
+    @Column({nullable:true})
+    idFile:string;
+    @ManyToOne(()=>File,file=>file.tickets
+    , {onDelete: 'CASCADE'}
+) file:File;
 
-    @ManyToOne(()=>File,(file)=>(file.tickets))
-    file:File;
-
-    @OneToMany((ticket_guichet) =>Guichet, (guichet) => guichet.ticket)
+    @OneToMany(() =>Guichet, guichet => guichet.ticket)
     guichets: Guichet [];
      
     @UpdateDateColumn()

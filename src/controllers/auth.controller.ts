@@ -31,7 +31,7 @@ export class AuthController {
 
   static async getProfile(req: Request, res: Response) {
     if (!req[" currentUser"]) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized acess to profile" });
     }
     const userRepository = AppDataSource.getRepository(User);
     const user = await userRepository.findOne({

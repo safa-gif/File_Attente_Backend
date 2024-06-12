@@ -8,14 +8,14 @@ import { File } from "../entity/File.entity";
 public static async creerTicket(req:Request, res:Response){
     const ticketRepository = AppDataSource.getRepository(Ticket);
     const fileRepository = AppDataSource.getRepository(File);
-    const {file, codeClient, codeProd, idGuichet, status, NbrClientAttente} = req.body
+    const { codeClient, codeProd, idGuichet,  NbrClientAttente} = req.body
     const ticket = new Ticket();
     ticket.codeClient = codeClient;
     ticket.codeProd = codeProd;
     ticket.idGuichet = idGuichet;
-    ticket.status = status;
+    ticket.status = "en attente";
     ticket.NbrClientAttente= 0;
-    ticket.file = null;
+    ticket.file;
     ticket.description = "Ticket Réservé";
 
    if(ticket!=null ||undefined){
@@ -141,4 +141,34 @@ public static async searchtTicketByGuichetId(req:Request, res:Response){
     })
 }
 
+public static async countTicketEnAttente(req:Request, res:Response){
+    const ticketRepository = AppDataSource.getRepository(Ticket);
+    const [count, nbr]= await ticketRepository.findAndCount({
+        where:{status:"en attente"}
+    })
+    .then((count)=>{
+        return res.status(200).json({message:"Tickets en attente trouvées",data:count, num: nbr})
+
+    })
+    .catch((error)=>{
+        return res.status(200).json({message:"Tickets en attente non trouvées",erreur:error})
+
+    })
+   
+}
+public static async countTicketEnCours(req:Request, res:Response){
+    const ticketRepository = AppDataSource.getRepository(Ticket);
+    const [count, nbr]= await ticketRepository.findAndCount({
+        where:{status:"en cours"}
+    })
+    .then((count)=>{
+        return res.status(200).json({message:"Tickets en attente trouvées",data:count, num: nbr})
+
+    })
+    .catch((error)=>{
+        return res.status(200).json({message:"Tickets en attente non trouvées",erreur:error})
+
+    })
+   
+}
 }

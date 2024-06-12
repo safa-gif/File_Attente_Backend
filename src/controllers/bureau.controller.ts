@@ -90,6 +90,11 @@ export class BureauController {
       res.status(201).json({ message: "Bureau has been found by ID ", data: bureau});
 
     })
+    .catch((error)=>{
+      res.status(500).json({
+        message:"Could not find the Bureau with this ID", error
+      })
+    })
     
   }
   // Creating a new guichet for the bureau 
