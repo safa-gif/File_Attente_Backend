@@ -9,12 +9,12 @@ const Router = express.Router();
 Router.get(
   "/users",
   authentification,
-  // authorization(["admin"]),
+  // authorization(['admin']),
   UserController.getUsers
 );
 Router.get(
   "/profile",
-  authentification,
+  // authentification,
   // authorization(["client", "admin"]),
   AuthController.getProfile
 );
@@ -57,19 +57,22 @@ Router.get('/operateurs',
  UserController.getAllOperators);
 
 Router.get('/clients',
-// authentification,
+authentification,
 // authorization(["admin"]),
  UserController.getAllClients);
 
- Router.get("/admins", authentification,
+ Router.get("/admins", 
+  authentification,
  UserController.getAllAdmins);
 
  Router.put('/reset-password/:id', 
-  authentification,
+  // authentification,
 // authorization(["admin", "client"]),
  UserController.resetPassword);
 
- Router.get("/getClients", UserController.onlyClients)
+ Router.get("/getClients", 
+  authentification,
+  UserController.onlyClients)
 
 
 export { Router as userRouter };

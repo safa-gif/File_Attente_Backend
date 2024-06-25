@@ -179,6 +179,10 @@ export class UserController {
       res.status(201).json({ message: "These are all your clients ", data: cl});
 
     })
+    .catch((error)=>{
+      res.status(501).json({ message: "Cannot load all your clients ", error: error});
+
+    })
   }
   // Get All Admins
   static async getAllAdmins (req: Request, res: Response) {

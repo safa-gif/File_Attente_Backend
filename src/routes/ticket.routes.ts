@@ -18,6 +18,6 @@ Router.get("/count", TicketController.countTicket);
 Router.get('/en-attente-count',TicketController.countTicketEnAttente)
 
 Router.get('/en-cours-count',TicketController.countTicketEnCours)
-
+// Router.get('/get-guichetbyticketId/:id', TicketController.getOpByTicketId)
 
 export { Router as ticketRouter };

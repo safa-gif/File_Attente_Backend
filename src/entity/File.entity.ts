@@ -19,6 +19,8 @@ export class File {
     // @Column({default:1})
     // nbrClientSuivant: number;
 
+    @Column()
+    idUser:string;
     // YYYY-MM-DD
     @CreateDateColumn()
     fileDate:Date;

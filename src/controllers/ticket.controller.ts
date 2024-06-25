@@ -3,6 +3,9 @@ import { TicketService } from "../services/ticket.service";
 import { AppDataSource } from "../data-source";
 import { Ticket } from "../entity/Ticket.entity";
 import { File } from "../entity/File.entity";
+// import { GuichetResponse } from './../dto/guichet.dto';
+import { Guichet } from "../entity/Guichet.entity";
+import { guichetRouter } from "../routes/guichet.routes";
  export class TicketController {
 
 public static async creerTicket(req:Request, res:Response){
@@ -36,7 +39,7 @@ public static async getAllTickets(req:Request, res:Response){
     const today= new Date();
     const tickets = await ticketRepository.find()
     if(tickets!== null || undefined){
-       return res.status(200).json({message:"Les tickets d'aujourd'hui",tickets})
+       return res.status(200).json({message:"Les tickets",tickets})
     }
     else{
        return res.status(500).json({message:"Pas de tickets aujourd'hui"})
@@ -84,12 +87,13 @@ public static async updateTicket(req:Request, res:Response){
     const ticket = await ticketRepository.findOneBy({id:ticketId});
     const fileRepository = AppDataSource.getRepository(File);
     // const file = await fileRepository.find
-    if(ticket !== null || undefined){
-        const {description,status} = req.body;
+    const {description,status,idFile} = req.body;
         ticket.description = description;
         ticket.status = status;
+        ticket.idFile =idFile;
         // ticket.file = file;
         await ticketRepository.save(ticket);
+    if(ticket !== null || undefined){
         return res.status(200).json({message:"Ticket mis à jour!!",ticket})
     }
     else{
@@ -171,4 +175,33 @@ public static async countTicketEnCours(req:Request, res:Response){
     })
    
 }
+// public static async getOpByTicketId(req:Request, res:Response){
+//     const ticketRepository = AppDataSource.getRepository(Ticket);
+//     const guichetRepository = AppDataSource.getRepository(Guichet);
+//     const idticket = req.params.id;
+//     const ticket = await ticketRepository.find({
+//         where : {id: idticket}
+//     })
+//     if(ticket!= null){
+//         const ticketlength = ticket.length;
+//         for(let i=0; i<ticketlength;i++){
+//             var guichetId = ticket[i].idGuichet;
+//         }
+//         var idGuichet = req.params.id;
+//         idGuichet = guichetId;
+//         const guichet = await guichetRepository.find({
+//             where : {id: guichetId}
+//         })
+//         .then((guichet)=>{
+//             return res.status(200).json({message:"Guichet trouvé",data:guichet})
+//         })
+//         .catch(()=>{
+//             return res.status(404).json({message:"Guichet non trouvé"})
+//         })
+//         // const guichet = await GuichetRepository.find({
+//         //     where : {}
+//         // })
+//     }
+
+// }
 }
